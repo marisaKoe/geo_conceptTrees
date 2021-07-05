@@ -31,14 +31,12 @@ phangorn = importr("phangorn")
 def create_dm(method):
     #get all the pmi matrices
     all_pmi_matrices = read_pmi_matrices(method)
-    #print all_pmi_matrices
     #get the geo distance matrix
     geo_dm = "input/nelex/distances_langPairs.phy"
     #print geo_dm
     geo_taxa, geo_matrix = transform_distance_matrices(geo_dm)
     #for each matrix in the pmi matrices
     #transform the matrix into numpy
-    #write a helper function to edit the matrix
     #sum the matrices up and write them into a file
     all_geo_matrices = defaultdict()
     for mtx in all_pmi_matrices:
@@ -51,7 +49,6 @@ def create_dm(method):
         if not len(pmi_taxa) == len(geo_taxa):
             #helper funtion to edit the matrix
             new_geo_taxa, new_geo_matrix = edit_matrix(geo_taxa, geo_matrix, pmi_taxa)
-            #print new_geo_matrix
             #writes the new geo_matrix to a file (can also be outcommended)
             matrixArray = squeeze(asarray(new_geo_matrix))
             folder = "output/nelex/"+method+"/geomatrices/geo+"+concept
@@ -78,7 +75,6 @@ def edit_matrix(geo_taxa,geo_matrix, pmi_taxa):
     '''
     #get the difference between the two taxa lists
     diff = list(set(geo_taxa)-set(pmi_taxa))
-    #print diff
     #get the intersection of the two lists to form a new taxa list
     newTaxa = list(set(geo_taxa) & set(pmi_taxa))
     #for each taxa in the difference set, get the index and save them to a list
@@ -86,12 +82,10 @@ def edit_matrix(geo_taxa,geo_matrix, pmi_taxa):
     for t in diff:
         i = geo_taxa.index(t)
         diffIndex.append(i)
-    #print diffIndex
     #delete all rows and colums at the indices
     matrixNew = delete(geo_matrix,diffIndex,0)
     matrixNew = delete(matrixNew,diffIndex,1)
-    
-    #print len(matrixNew)         
+       
     #return the new taxa sample and the new matrix
     return newTaxa, matrixNew     
     
@@ -112,7 +106,6 @@ def combine_matrices(all_pmi_matrices, all_geo_matrices, method):
     for mtx,taxa in all_geo_matrices.items():
         #get the concept for comparison (includes .phy ending)
         concept = mtx.split("/")[-1].split("+")[-1]
-        #print concept
         #for each matrix in the pmi list
         for mtx2 in all_pmi_matrices:
             #get the concept (includes .phy ending)
