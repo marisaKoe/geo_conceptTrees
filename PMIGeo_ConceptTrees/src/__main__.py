@@ -2,6 +2,9 @@
 Created on 06.03.2017
 
 @author: marisakoe
+
+The files in the input folder are samples.
+Please add your own files to the folder in order to compute the SDM.
 '''
 
 
@@ -12,7 +15,8 @@ if __name__ == '__main__':
     
     ##nelex
     ##inputFolder: input/nelex/phylip
-    methods = ["cog"]
+    ##method of the concept tree reconstruction
+    methods = ["cog", "pmi", "sigmoid"]
     
     for method in methods:
         create_dm(method)
